@@ -1,0 +1,118 @@
+# .github/workflows/ci.yml
+# Beacon Observatory CI Pipeline
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+env:
+  PYTHON_VERSION: "3.12"
+  NODE_VERSION: "24"
+
+jobs:
+  backend-test:
+    name: Backend Tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./backend
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: "pip"
+
+      - name: Install dependencies
+        run: |
+          python -m venv .venv
+          .venv/bin/pip install --upgrade pip
+          .venv/bin/pip install -r requirements.txt
+
+      - name: Run backend tests
+        run: |
+          PYTHONPATH=. .venv/bin/python -m pytest tests/ -v --tb=short
+
+  frontend-test:
+    name: Frontend Tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./frontend
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Type check
+        run: npm run build
+
+      - name: Run frontend tests
+        run: npm test
+
+  backend-docker:
+    name: Build Backend Docker Image
+    runs-on: ubuntu-latest
+    needs: backend-test
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build backend image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./backend
+          push: false
+          load: true
+          tags: beacon-observatory-backend:test
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  frontend-docker:
+    name: Build Frontend Docker Image
+    runs-on: ubuntu-latest
+    needs: frontend-test
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build frontend image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./frontend
+          push: false
+          load: true
+          tags: beacon-observatory-frontend:test
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  compose-validation:
+    name: Validate Docker Compose
+    runs-on: ubuntu-latest
+    needs: [backend-docker, frontend-docker]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate compose file
+        run: docker compose config --quiet
