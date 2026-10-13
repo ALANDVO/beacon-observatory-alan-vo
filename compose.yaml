@@ -1,0 +1,89 @@
+# docker-compose.yaml
+# Beacon Observatory - Development and Production Docker Compose
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+      target: runtime
+    container_name: beacon-backend
+    environment:
+      - DATABASE_URL=sqlite+aiosqlite:///./data/beacon.db
+      - ENVIRONMENT=development
+      - DEBUG=true
+      - CORS_ORIGINS=["http://localhost:5173","http://127.0.0.1:5173","http://localhost:8080","http://127.0.0.1:8080"]
+    volumes:
+      - backend-data:/app/data
+    ports:
+      - "127.0.0.1:8000:8000"
+    networks:
+      - beacon-network
+    healthcheck:
+      test: ["CMD", "python", "-c", "import httpx; httpx.get('http://127.0.0.1:8000/api/healthz', timeout=3).raise_for_status()"]
+      interval: 30s
+      timeout: 5s
+      start_period: 10s
+      retries: 3
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      target: runtime
+    container_name: beacon-frontend
+    ports:
+      - "127.0.0.1:8080:8080"
+    networks:
+      - beacon-network
+    depends_on:
+      backend:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:8080/"]
+      interval: 30s
+      timeout: 5s
+      start_period: 10s
+      retries: 3
+    restart: unless-stopped
+
+  # Keycloak for OIDC authentication (future)
+  # keycloak:
+  #   image: quay.io/keycloak/keycloak:25.0
+  #   container_name: beacon-keycloak
+  #   environment:
+  #     - KC_BOOTSTRAP_ADMIN_USERNAME=admin
+  #     - KC_BOOTSTRAP_ADMIN_PASSWORD=admin
+  #     - KC_HOSTNAME=localhost
+  #     - KC_HOSTNAME_PORT=8443
+  #     - KC_HOSTNAME_STRICT_HTTPS=false
+  #     - KC_HEALTH_ENABLED=true
+  #     - KC_METRICS_ENABLED=true
+  #   command: start-dev --import-realm --http-enabled=true --http-port=8080 --hostname=localhost
+  #   volumes:
+  #     - keycloak-data:/opt/keycloak/data
+  #     - ./keycloak/realm-export.json:/opt/keycloak/data/import/realm-export.json:ro
+  #   ports:
+  #     - "127.0.0.1:8443:8080"
+  #   networks:
+  #     - beacon-network
+  #   healthcheck:
+  #     test: ["CMD", "wget", "-qO-", "http://127.0.0.1:8080/health/ready"]
+  #     interval: 30s
+  #     timeout: 10s
+  #     start_period: 30s
+  #     retries: 5
+  #   restart: unless-stopped
+
+networks:
+  beacon-network:
+    driver: bridge
+    name: beacon-network
+
+volumes:
+  backend-data:
+    driver: local
+    name: beacon-backend-data
+  # keycloak-data:
+  #   driver: local
+  #   name: beacon-keycloak-data

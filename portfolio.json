@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "name": "beacon-observatory-alan-vo",
+  "owner": "ALANDVO",
+  "email": "alanvo@gmail.com",
+  "domain": "AI/ML developer tools",
+  "summary": "Work in progress: beacon-observatory-alan-vo",
+  "workflows": [
+    "Manage pstack skills, playbooks, and principles with persistent registry and CRUD API",
+    "Generate agent-specific configurations for 7+ AI coding assistants from unified skill definitions",
+    "Analyze session logs to measure hook reach and follow-through rates by agent type and session type"
+  ],
+  "auth": "oidc-keycloak-saml-broker",
+  "llm_providers": [
+    "openai-compatible",
+    "anthropic",
+    "gemini",
+    "ollama"
+  ],
+  "status": "work-in-progress"
+}
