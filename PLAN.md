@@ -56,7 +56,7 @@ Tests: `backend/tests/test_skills.py (TestSkillConfigGeneration)`
 
 ### hook-effectiveness-analyzer — Hook effectiveness analyzer (addresses Issue #264)
 
-Status: in_progress
+Status: done
 
 Acceptance:
 - Ingests session logs and computes hook reach/follow-through rates
@@ -64,7 +64,9 @@ Acceptance:
 - Dashboard shows opens per 100 prompts by agent type
 - Exports analysis as JSON/CSV
 
-Implementation: `backend/app/models/analysis.py`, `backend/app/api/analysis.py`
+Implementation: `backend/app/models/analysis.py`, `backend/app/api/analysis.py`, `backend/tests/test_analysis.py`
+
+Tests: `backend/tests/test_analysis.py`
 
 ### oidc-auth — OIDC authentication with Keycloak
 

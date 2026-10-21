@@ -498,24 +498,25 @@ async def get_effectiveness_report(
     results_result = await session.execute(results_query)
     results = results_result.scalars().all()
 
-    # Build summary
+    # Build summary with nested by_source structure
+    by_source: dict = {}
+    for r in results:
+        src_key = r.source.value
+        st_key = r.session_type.value
+        if src_key not in by_source:
+            by_source[src_key] = {}
+        by_source[src_key][st_key] = {
+            "total_sessions": r.total_sessions,
+            "hook_reach_rate": r.hook_reach_rate,
+            "router_open_rate": r.router_open_rate,
+            "playbook_open_rate": r.playbook_open_rate,
+            "principle_open_rate": r.principle_open_rate,
+            "opens_per_100_prompts": r.opens_per_100_prompts,
+        }
+
     summary = {
-        "total_sessions": sum(r.total_sessions for r in results),
-        "overall_hook_reach_rate": sum(r.hook_reach_count for r in results) / sum(r.total_sessions for r in results) * 100 if sum(r.total_sessions for r in results) > 0 else 0,
-        "overall_router_open_rate": sum(r.router_open_count for r in results) / sum(r.total_sessions for r in results) * 100 if sum(r.total_sessions for r in results) > 0 else 0,
-        "by_source_session": [
-            {
-                "source": r.source.value,
-                "session_type": r.session_type.value,
-                "total_sessions": r.total_sessions,
-                "hook_reach_rate": r.hook_reach_rate,
-                "router_open_rate": r.router_open_rate,
-                "playbook_open_rate": r.playbook_open_rate,
-                "principle_open_rate": r.principle_open_rate,
-                "opens_per_100_prompts": r.opens_per_100_prompts,
-            }
-            for r in results
-        ],
+        "total_sessions_analyzed": sum(r.total_sessions for r in results),
+        "by_source": by_source,
     }
 
     return EffectivenessReportResponse(
