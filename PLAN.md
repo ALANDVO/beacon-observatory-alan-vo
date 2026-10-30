@@ -64,7 +64,7 @@ Acceptance:
 - Dashboard shows opens per 100 prompts by agent type
 - Exports analysis as JSON/CSV
 
-Implementation: `backend/app/models/analysis.py`, `backend/app/api/analysis.py`, `backend/tests/test_analysis.py`
+Implementation: `backend/app/models/analysis.py`, `backend/app/api/analysis.py`, `backend/tests/test_analysis.py`, `frontend/src/components/AnalysisDashboard.tsx`, `frontend/src/types/api.ts`, `frontend/src/api/client.ts`, `frontend/src/App.tsx`, `frontend/src/App.css`
 
 Tests: `backend/tests/test_analysis.py`
 

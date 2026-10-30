@@ -1,6 +1,7 @@
 // frontend/src/App.tsx
 /** Main application component. */
 import { HealthStatus } from "./components/HealthStatus";
+import { AnalysisDashboard } from "./components/AnalysisDashboard";
 import "./App.css";
 
 function App() {
@@ -23,23 +24,27 @@ function App() {
           <HealthStatus detailed={true} />
         </section>
 
+        <section className="analysis-section" aria-labelledby="analysis-heading">
+          <AnalysisDashboard />
+        </section>
+
         <section className="features-section" aria-labelledby="features-heading">
           <h2 id="features-heading">Capabilities</h2>
           <div className="features-grid">
             <article className="feature-card">
               <h3>Skill Registry</h3>
               <p>Manage pstack skills, playbooks, and principles with full CRUD API and persistent storage.</p>
-              <span className="status planned">Planned</span>
+              <span className="status done">Done</span>
             </article>
             <article className="feature-card">
               <h3>Multi-Agent Config Generator</h3>
               <p>Generate agent-specific configurations for Claude, Codex, Copilot, Pi, OpenCode, Gemini, and Prime Agent.</p>
-              <span className="status planned">Planned</span>
+              <span className="status done">Done</span>
             </article>
             <article className="feature-card">
               <h3>Hook Effectiveness Analyzer</h3>
               <p>Analyze session logs to measure hook reach and follow-through rates across agent types (Issue #264).</p>
-              <span className="status planned">Planned</span>
+              <span className="status done">Done</span>
             </article>
             <article className="feature-card">
               <h3>OIDC Authentication</h3>
