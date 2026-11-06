@@ -1,22 +1,32 @@
 # Changelog
 
+## 1.3.0 — work-in-progress checkpoint
+
+Partial code published for continued development. Known issues: STATUS.md.
+
 ## 1.2.0 — work-in-progress checkpoint
 
 Partial code published for continued development. Known issues: STATUS.md.
 
+### Fixed
+- Pydantic v2 deprecation: migrated class-based `Config` to `model_config = ConfigDict(...)` in API response models (skills.py, analysis.py)
+- Added missing frontend component tests (App.test.tsx)
+
+---
+
 ## 1.1.0 — work-in-progress checkpoint
- 
- Partial code published for continued development. Known issues: STATUS.md.
- 
- ### Added
- +- Frontend dashboard for Hook Effectiveness Analyzer with job management, results table, and JSON/CSV export
- +- Analysis API types and client methods for session logs and analysis jobs
- +- Updated feature status badges in main UI
- 
- ### Fixed
- +- TypeScript build errors in API client (SessionLogResponse type usage)
- 
- ## 1.0.0 — work-in-progress checkpoint
+
+Partial code published for continued development. Known issues: STATUS.md.
+
+### Added
++- Frontend dashboard for Hook Effectiveness Analyzer with job management, results table, and JSON/CSV export
++- Analysis API types and client methods for session logs and analysis jobs
++- Updated feature status badges in main UI
+
+### Fixed
++- TypeScript build errors in API client (SessionLogResponse type usage)
+
+## 1.0.0 — work-in-progress checkpoint
 
 Partial code published for continued development. Known issues: STATUS.md.
 
