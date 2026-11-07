@@ -78,3 +78,6 @@ Acceptance:
 - Roles: viewer, operator, admin
 - Demo mode for local development only
 
+---
+
+Alan Vo · [alanvo.net](https://alanvo.net)

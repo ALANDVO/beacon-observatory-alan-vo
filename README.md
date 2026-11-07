@@ -370,3 +370,7 @@ MIT License — Copyright (c) 2026 Alan Vo <alanvo@gmail.com>
 - [Issue #265](https://github.com/michael-denyer/pstack-claude/issues/265) — Codex plugin manifest conflict
 - [Issue #105](https://github.com/michael-denyer/pstack-claude/issues/105) — Grok CLI orchestration
 - [Issue #261](https://github.com/michael-denyer/pstack-claude/issues/261) — Metric verification & blast-radius
+
+---
+
+Alan Vo · [alanvo.net](https://alanvo.net)

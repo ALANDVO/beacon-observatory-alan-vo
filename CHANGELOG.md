@@ -81,3 +81,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - LLM integration for advisory explanations
 - Backup/restore tooling
 - API rate limiting
+
+---
+
+Alan Vo · [alanvo.net](https://alanvo.net)
