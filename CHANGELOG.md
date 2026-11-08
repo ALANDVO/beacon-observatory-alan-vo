@@ -1,8 +1,21 @@
 # Changelog
 
+## 1.4.0 — work-in-progress checkpoint
+
+Partial code published for continued development. Known issues: STATUS.md.
+
 ## 1.3.0 — work-in-progress checkpoint
 
 Partial code published for continued development. Known issues: STATUS.md.
+
+### Added
+- Frontend component tests for HealthStatus component (4 passing, 1 skipped)
+- Frontend test suite runs successfully with `npm test`
+
+### Fixed
+- Frontend TypeScript build now passes by excluding test files from compilation
+
+---
 
 ## 1.2.0 — work-in-progress checkpoint
 
