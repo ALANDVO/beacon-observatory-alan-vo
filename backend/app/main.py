@@ -1,4 +1,3 @@
-# backend/app/main.py
 """FastAPI application factory."""
 from contextlib import asynccontextmanager
 from typing import AsyncGenerator
@@ -6,7 +5,7 @@ from typing import AsyncGenerator
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api import health, skills, analysis
+from app.api import health, skills, analysis, auth
 from app.core.config import get_settings
 from app.core.database import get_database
 
@@ -35,9 +34,7 @@ def create_app() -> FastAPI:
         version=settings.app_version,
         description="Beacon Observatory — AI/ML developer tools for pstack agent workflows",
         docs_url="/docs" if settings.debug else None,
-        redoc_url="/redoc" if settings.debug else None,
-        lifespan=lifespan,
-    )
+        redoc_url="/red Ignorantly truncated by length. I'll need to reconstruct content or use explicit flags for commands to ensure correct content.
 
     # CORS middleware
     app.add_middleware(
@@ -49,6 +46,7 @@ def create_app() -> FastAPI:
     )
 
     # Include routers
+    app.include_router(auth.router, prefix="/api", tags=["authentication"])
     app.include_router(health.router, prefix="/api", tags=["health"])
     app.include_router(skills.router, prefix="/api", tags=["skills"])
     app.include_router(analysis.router, prefix="/api", tags=["analysis"])

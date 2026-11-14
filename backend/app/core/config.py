@@ -1,4 +1,3 @@
-# backend/app/core/config.py
 """Application configuration using Pydantic Settings."""
 from functools import lru_cache
 from typing import List, Optional
@@ -35,11 +34,16 @@ class Settings(BaseSettings):
     # CORS
     cors_origins: List[str] = Field(default_factory=lambda: ["http://localhost:5173", "http://127.0.0.1:5173"])
 
-    # Security (OIDC - future)
+    # Security (OIDC)
     oidc_enabled: bool = False
     oidc_issuer_url: Optional[str] = None
     oidc_client_id: Optional[str] = None
     oidc_client_secret: Optional[str] = None
+
+    # JWT Authentication (for demo mode)
+    token_secret_key: str = Field(default="demo-secret-key-change-in-production")
+    token_algorithm: str = "HS256"
+    token_expiry_minutes: int = Field(default=60, ge=1, le=1440)
 
     # LLM (future)
     llm_api_key: Optional[str] = None
