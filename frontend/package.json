@@ -1,6 +1,6 @@
 {
   "name": "beacon-observatory-frontend",
-  "version": "1.0.0",
+  "version": "1.5.0",
   "description": "Beacon Observatory \u2014 AI/ML developer tools for pstack agent workflows",
   "author": {
     "name": "Alan Vo",
