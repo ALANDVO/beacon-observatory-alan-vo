@@ -34,7 +34,8 @@ def create_app() -> FastAPI:
         version=settings.app_version,
         description="Beacon Observatory — AI/ML developer tools for pstack agent workflows",
         docs_url="/docs" if settings.debug else None,
-        redoc_url="/red Ignorantly truncated by length. I'll need to reconstruct content or use explicit flags for commands to ensure correct content.
+        redoc_url="/redoc" if settings.debug else None,
+    )
 
     # CORS middleware
     app.add_middleware(
